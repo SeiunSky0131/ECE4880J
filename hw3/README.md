@@ -7,4 +7,7 @@ and `SIFT`.
 Make sure the convolution function you implement is correct. It is widely used in those algorithms.
 
 ### Some work demo
+Before edge detection
 ![Before Edge Detection](https://github.com/TaikiShuttle/ECE4880J/blob/main/hw3/smartfalcon_denoised.jpg)
+After edge detection
+![After Edge Detection](https://github.com/TaikiShuttle/ECE4880J/blob/main/hw3/smartfalcon_edge.jpg)
