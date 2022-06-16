@@ -65,11 +65,11 @@ if __name__ == "__main__":
 
     test_mat = np.array([[1,1,1,1,1],[1,2,2,2,1],[1,2,3,2,1],[1,2,2,2,1],[1,1,1,1,1]])
     id_kernel = np.array([[0,0,0],[0,1,0],[0,0,0]])
-    avg_kernel = np.array([[1,1,1],[1,1,1],[1,1,1]]/9)
+    avg_kernel = np.array([[1,1,1],[1,1,1],[1,1,1]])/9
     print("identical kernel: \n", myConv2D(test_mat, id_kernel, stride = 1, padding = (1,1)))
     print("average_kernel: \n", myConv2D(test_mat, avg_kernel,stride = 1, padding = 1))
     print("identical kernel with 2 stride: \n", myConv2D(test_mat, id_kernel, stride = 2, padding = 1))
     
-    Guass_kernel = np.array([[1,2,1],[2,4,2],[1,2,1]]/16)
+    Guass_kernel = np.array([[1,2,1],[2,4,2],[1,2,1]])/16
     filtered_img = myConv2D(img, Guass_kernel, stride = 1, padding = 1)
     imsave("Conv_lena.jpg",filtered_img,cmap = 'gray')
