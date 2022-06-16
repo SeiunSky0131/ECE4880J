@@ -68,28 +68,28 @@ def NMS(img:np.ndarray, angles:np.ndarray) -> np.ndarray:
             for j in range(1,M + 1):
 
                 # case 1, degree = 0
-                if (angles[i - 1][j - 1] >= -22.5) and (angles[i - 1][j - 1] < 22.5):
+                if (angles[i - 1][j - 1] >= -np.pi/8) and (angles[i - 1][j - 1] < np.pi/8):
                     if (img[i][j] >= img[i][j - 1]) and (img[i][j] >= img[i][j + 1]):
                         suppressed[i - 1][j - 1] = img[i][j]
                     else:
                         suppressed[i - 1][j - 1] = 0
                 
                 # case 2, degree = 45
-                elif (angles[i - 1][j - 1] >= 22.5) and (angles[i - 1][j - 1] < 67.5):
+                elif (angles[i - 1][j - 1] >= np.pi/8) and (angles[i - 1][j - 1] < np.pi*3/8):
                     if (img[i][j] >= img[i + 1][j - 1]) and (img[i][j] >= img[i - 1][j + 1]):
                         suppressed[i - 1][j - 1] = img[i][j]
                     else:
                         suppressed[i - 1][j - 1] = 0
 
                 # case 3, degree = 90
-                elif (angles[i - 1][j - 1] >= 67.5) or (angles[i - 1][j - 1] < -67.5):
+                elif (angles[i - 1][j - 1] >= np.pi*3/8) or (angles[i - 1][j - 1] < -np.pi*3/8):
                     if (img[i][j] >= img[i - 1][j]) and (img[i][j] >= img[i + 1][j]):
                         suppressed[i - 1][j - 1] = img[i][j]
                     else:
                         suppressed[i - 1][j - 1] = 0
                 
                 # case 4. degree = 135
-                elif (angles[i - 1][j - 1] >= -67.5) and (angles[i - 1][j - 1] < -22.5):
+                elif (angles[i - 1][j - 1] >= -np.pi*3/8) and (angles[i - 1][j - 1] < -np.pi/8):
                     if (img[i][j] >= img[i - 1][j - 1]) and (img[i][j] >= img[i + 1][j + 1]):
                         suppressed[i - 1][j - 1] = img[i][j]
                     else:
@@ -112,19 +112,16 @@ def myCanny(
     padding = np.floor(np.array(gaussian_kernel.shape)/2)
     denoised = myConv2D(img, gaussian_kernel, padding=(int(padding[0]), int(padding[1])))
     plt.imsave("./zebra_denoised.jpg", denoised, cmap="Greys_r")
-    # plt.imsave("./zzy_denoised.jpg", denoised, cmap="Greys_r")
 
     # find the intensity gradient of the image
     #   TODO: implement the Sobel filter
     gradient, angles = SobelFilter(denoised)
     plt.imsave("./zebra_gradient.jpg", gradient, cmap="Greys_r")
-    # plt.imsave("./zzy_gradient.jpg", gradient, cmap="Greys_r")
 
     # find the edge candidates by non-max suppression
     #   TODO: implement the non-max suppression function
     nms = NMS(gradient, angles)
     plt.imsave("./zebra_nms.jpg", nms, cmap="Greys_r")
-    # plt.imsave("./zzy_nms.jpg", nms, cmap="Greys_r")
 
     # TODO: determine the potential edges by the hysteresis threshold
     N,M = nms.shape
@@ -159,7 +156,6 @@ def myCanny(
                     output[i - 1][j - 1] = 0
 
     plt.imsave("./zebra_edge.jpg", output, cmap="Greys_r")
-    # plt.imsave("./zzy_edge.jpg", output, cmap="Greys_r")
     return output
 
 # following code is testing code
